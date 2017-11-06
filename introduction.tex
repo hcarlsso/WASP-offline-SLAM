@@ -1,0 +1,183 @@
+\section{Introduction}
+
+Localization is a crucial part of navigation systems. Automotive
+systems have been able to rely on GPS positioning, however, to render
+the car fully autonomous the positioning error from a GPS, in the
+order of 10 m \cite{4770175}, is too high. Hence, the car needs to be
+equipped with other types sensors for localization.
+
+\subsection{General Problem Description}
+
+The general description of the localization problem is that the car
+jointly estimate its pose and the positions of landmarks relative to
+the car, known as the \gls{SLAM} problem. Included in this problem is
+to find, identify and map new landmarks based on sensor
+measurements. The generic form of the \gls{SLAM} problem.
+
+In this project, the requirement on online-\gls{SLAM} is relaxed and
+the mapping is performed offline and the localization online. More
+specifically:
+\begin{itemize}
+\item Create maps, suitable for localization, using sensor data from
+  multiple vehicles, a type of crowd sourcing. Here the maps will be
+  created offline, in a smoothing framework.
+
+\item The purpose of the maps is that they can be used by other
+  vehicles for finding their location within the map. The localization
+  will be solved online, that is, a filtering problem.
+
+\end{itemize}
+
+The trajectory of the car over T time steps can be described as   and
+the positions of the landmarks can be described as, which can be
+considered to be static in time. Then the \gls{SLAM} problem solves
+the following filtering problem.
+
+Where the positions of the landmarks and the state is jointly
+estimated given all the past measurements. This requires significant
+computational resources for large scale problems. The problem to be
+solved in this project is to separate the map making and the online
+localization. The map making can be viewed as a joint smoothing
+problem.
+
+
+Where we again jointly estimates the trajectories  and the positions
+of landmarks  given all measurements . However, we can access future
+measurements to estimate the state , i.e. non-causal filtering, and
+cannot be performed online. When we want to perform localization we
+calculate
+
+
+\subsection{Goal}
+
+The overall goal of the project is to create a system for mapping and
+localization of cars. The scenario to be considered is:
+\begin{enumerate}
+\item  Install sensors on multiple regular cars which drive around as
+  they usually do.
+\item Let these sensors record and store data.
+\item With the recorded data create a global map offline.
+\item A car entering an area that has been mapped by previous car can
+  thus localize itself in this map.
+\item New cars can send new sensor measurements to update the global
+  map.
+\end{enumerate}
+
+Here the global map refers to an unique map that is shared between
+vehicles. With such a system, questions like ``When is the traffic sign
+coming?'' or  ``Is a turn coming soon?'' can be answered. And systematic
+errors in the map can be eliminated thanks to the dynamical updating.
+
+
+Further, the project aims at addressing some aspects of vehicle
+\gls{SLAM}. First, the extracted landmarks should be detectable in all
+weathers and lighting conditions. Thus, features that are extracted
+from a camera picture should be invariant to environmental
+conditions. And ultimately the quality of the landmarks can be
+evaluated in many different aspects. For instance, how many sensor
+systems are required in order to provide reliable localization? It is
+imaginable that certain sensor systems maybe not always work. Further,
+given a map of landmarks, for how long does the localization need to
+operate to provide an reliable localization?
+
+\subsection{Major problems}
+Here we list problems that makes this project challenging. These can
+be grouped into two groups: external (environment specific) and
+internal (technical aspects).
+\begin{itemize}
+\item External:
+  \begin{itemize}
+  \item Different timescales in changes of the environment:
+    \begin{itemize}
+    \item (hour scale) Lightning
+    \item (day scale) Different weather conditions
+    \item (month) winter summer
+    \item (year) new buildings
+    \end{itemize}
+  \item The size of area to cover
+  \end{itemize}
+\item Technical:
+  \begin{itemize}
+  \item  How to efficiently merge information from multiple
+    sensors
+  \item  How to efficiently merge information from multiple cars.
+  \item  How to update map over time.
+  \item How to account with multiple measurements.
+  \item  10 m error in GPS position.
+  \item  How to account for sensor failure.
+  \item  How to include new types of sensors in the future.
+  \end{itemize}
+\item  Computational aspects:
+  \begin{itemize}
+  \item   Where to perform calculations: in the car or in the
+    cloud?
+  \item   Where to store a global map, locally or in the cloud?
+ \end{itemize}
+\end{itemize}
+
+
+\subsection{What has been done before?}
+
+\gls{SLAM} has been greatly evolved over the year and becomes very
+close to large-scale real-world applications. For the visual based
+\gls{SLAM}, different camera setups, e.g., monocular, stereo or RGB-D
+cameras, required different algorithms for estimating the motion of
+the camera. In our project, we are more interested in using stereo
+camera as RGB-D camera naturally does not work well in outdoor scenario
+and single camera potentially will suffer from the lack of estimation
+of true scale.
+
+
+For stereo visual \gls{SLAM}, here we listed several modern systems
+which have been extensively verified in different
+benchmarks. ORB-SLAM\cite{DBLP:journals/corr/Mur-ArtalT16a} is one of the modern sparse visual \gls{SLAM}
+system, it is based on keypoint feature matching and sparse bundle
+adjustment for estimating the motion of camera. Stereo LSD-SLAM\cite{7353631} is
+a direct method which is feature free, the tracker is directly
+optimizing the photometric error of  high gradient regions in the
+images. SVO\cite{7782863} is a combination of both, it firstly detects sparse
+features and then uses small image patches around them to perform
+direct tracking. The tracked points are then input to a sparse bundle
+adjustment back-end.
+
+Opposing to camera based \gls{SLAM}, velodyne liked Lidars are capable
+of generating dense and accurate depth map with relatively long range
+outdoor. It is usually based on the direct alignment of point cloud
+using classical iterative closest point algorithm or its variants. On
+other trend, inertial unit is also an appealing option due to its low
+cost and high data rate (hundreds of Hz). It is very useful to recover
+the scale drift and provide aid when camera or lidar cannot run on par
+with it in the same speed. At last, there is also GPS which could
+provide direct position measurement and typically works in 5-10 meters
+level precision when the signal is available. Though GPS could be a
+possible solution for navigation, but hardly be enough for positioning
+the vehicle in the correct lane.
+
+
+\subsection{Industrial and the scientific relevance}
+
+For both scientific and industrial aspects, it is an interesting topic
+to build a map consists of measurements from different types of
+sensors which will help to recover from sensor failure in certain
+cases during the system is running. In scientific aspect, point clouds
+and boundary representations are currently dominating the landscape of
+dense mapping, higher-level representations, including objects and
+shapes, will play a key role in the future of \gls{SLAM} \cite{DBLP:journals/corr/CadenaCCLSN0L16}. In
+industrial aspect, there are other other assumption worth to be
+investigated. For instance, persistent localization in longitudinal
+direction.
+
+
+\begin{itemize}
+\item  Scientific \cite{DBLP:journals/corr/CadenaCCLSN0L16}
+\item  Industrial (Mats):
+  \begin{itemize}
+  \item persistent localization in longitudinal direction,
+  \item get the most of all the sensors
+  \end{itemize}
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
