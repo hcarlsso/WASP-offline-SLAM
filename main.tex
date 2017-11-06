@@ -5,17 +5,28 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage[acronym]{glossaries}
-
+\usepackage{hyperref}
 
 \newacronym{SLAM}{SLAM}{Simultaneous Localization And Mapping}
+\newacronym{MVP}{MVP}{Minimum Viable Problem}
+\newacronym{LIDAR}{LiDAR}{Light Detection and Ranging}
+\newacronym{MVS}{MVS}{Minimum viable solution}
+\newacronym{AOA}{AOA}{Angle Of Arrival}
+
 
 \title{WASP Offline SLAM}
+\author{H\aa kan Carlsson (hakcar@kth.se)}
+
 
 \begin{document}
 
+\maketitle
+\newpage
+\tableofcontents
+\newpage
 
 \input{introduction}
-
+\input{proposed_method}
 
 \bibliographystyle{ieeetr}
 \bibliography{refs}
