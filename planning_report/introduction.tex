@@ -68,7 +68,6 @@ vehicles. With such a system, questions like ``When is the traffic sign
 coming?'' or  ``Is a turn coming soon?'' can be answered. And systematic
 errors in the map can be eliminated thanks to the dynamical updating.
 
-
 Further, the project aims at addressing some aspects of vehicle
 \gls{SLAM}. First, the extracted landmarks should be detectable in all
 weathers and lighting conditions. Thus, features that are extracted
@@ -79,6 +78,23 @@ systems are required in order to provide reliable localization? It is
 imaginable that certain sensor systems maybe not always work. Further,
 given a map of landmarks, for how long does the localization need to
 operate to provide an reliable localization?
+
+\subsection{Radio Localization and Mapping}
+
+GPS signals may not always be available. With the emergence of 5G
+standard, the project would also consider to integrate radio channel
+estimates of 5GHz, and the commercial LTE
+band into this cooperative offline \gls{SLAM} framework:
+\begin{itemize}
+\item   From a mapping perspective, angular and distance information
+  from the radio channel estimates could be used as additional sensor
+  of the environment, with complementary characteristics compared to
+  camera and LIDAR information.
+\item From a positioning perspective, radio-based positioning using
+multi-antenna reception could provide accurate location information of
+vehicles, especially in urban areas, which complement camera and LIDAR
+based SLAM.
+\end{itemize}
 
 \subsection{Major problems}
 Here we list problems that makes this project challenging. These can

@@ -43,6 +43,7 @@ The minimum set of sensors to consider are:
 \item GPS
 \item Stereo Cameras
 \item IMU
+\item Radio receivers
 \end{itemize}
 
 The localization part should be able to handle multiple sensor types as well as different combinations of them to increase robustness.
@@ -56,7 +57,23 @@ The system will be evaluated using datasets from
 
 The \gls{MVS} solves the \gls{MVP}, and thus only implements the necessary
 features.
+\begin{itemize}
+\item A sensor fusion algorithm is used to combine the information
+  from different sensors including camera, LIDAR, USRP, channel
+  sounder.
+\item Estimate and track the position of the vehicle based on a SLAM
+  algorithm.
+\end{itemize}
 
+To include radio measurementsm there are two options:
+\begin{itemize}
+\item To use a USRP with LTE framework and switching antenna array to
+  receive commercial LTE signals from base stations, estimate the
+  Angle of Arrival, and time delay of multipath components.
+\item To use channel sounder and antenna arrays (with 32 antenna
+  elements) on both base station and user sides to collect channel
+  information with respect to angles and distances.
+\end{itemize}
 
 \subsection{Features include after MVP (ranked)}
 
@@ -108,8 +125,17 @@ algorithm, it is possible to perform cross-validation.
 
 The requirements on WARA-CAT are:
 \begin{itemize}
-\item Test environment for data collection using the defined sensor in
-  \ref{sec:sensor-setup}
+\item A vehicle (with similar size of Volvo V70) or a manually moved
+  trolley to accommodate the sensors.
+\item Radio equipment :
+  \begin{itemize}
+  \item   antenna arrays,
+  \item  channel sounder,
+  \item USRP,
+  \item laptop
+  \end{itemize}
+  \item Test environment for data collection using the defined sensor in
+    \ref{sec:sensor-setup}
 \item 5G network for radio localization.
 \item Ground truth of the vehicle for evaluation of algorithms.
 \end{itemize}
