@@ -8,98 +8,43 @@ However, a fully autonomous car must be able to localize itself so that it does 
 
 Thus, the autonomous car needs other types of sensors for localization. The types of sensors that have been used for cars are: \gls{LIDAR}, cameras, \gls{IMU}, and radio receivers. However, many of these systems requires a map of the environment, or identifiable landmarks, for the localization system to determine its relative position compared to the landmarks. For instance, if the location of a stop sign was known a priori to the car, and the car could in the vicinity of the sign determine angle and distance with a good accuracy, e.g. centimetres. However, a priori knowledge of the location of landmarks, to such a degree to render the position error of the car acceptable, is rarely available. Thus, there is an additional problem of mapping the environment.
 
-\subsection{General Problem Description}
-
-The general description of the localization problem is that the car
-jointly estimate its pose and the positions of landmarks relative to
-the car, known as the \gls{SLAM} problem. Included in this problem is
-to find, identify and map new landmarks based on sensor
-measurements. The generic form of the \gls{SLAM} problem can be stated
-as
-\begin{subequations}
-  \begin{align}
-    x_{k+1} & = f_k(x_k, u_k,v_k), \\
-    m_{k+1} & = m_k, \\
-    y_k & = h_k(x_k, m_k, u_k) + e_k.
-  \end{align}
-\end{subequations}
-Here, at the discrete time-point $k$, $x_k$ contains information about
-the state of the vehicle and $m_k$ contains the location of the
-landmarks. The ensemble of the landmarks are also denoted as the map,
-and it is assumed that positions of the landmarks remain constant over
-time.
-
-In this project, the requirement on online-\gls{SLAM} is relaxed and
-the mapping is performed offline and the localization online. More
-specifically:
-\begin{itemize}
-\item Create maps, suitable for localization, using sensor data from
-  multiple vehicles, a type of crowd sourcing. Here the maps will be
-  created offline.
-
-\item The purpose of the maps is that they can be used by other
-  vehicles for finding their location within the map. The localization
-  will thus be solved online, that is, a filtering problem.
-\end{itemize}
-
-
-The trajectory of the car over T time steps can be described as   and
-the positions of the landmarks can be described as, which can be
-considered to be static in time. Then the \gls{SLAM} problem solves
-the following filtering problem.
-
-Where the positions of the landmarks and the state is jointly
-estimated given all the past measurements. This requires significant
-computational resources for large scale problems. The problem to be
-solved in this project is to separate the map making and the online
-localization. The map making can be viewed as a joint smoothing
-problem.
-
-
-Where we again jointly estimates the trajectories  and the positions
-of landmarks  given all measurements . However, we can access future
-measurements to estimate the state , i.e. non-causal filtering, and
-cannot be performed online. When we want to perform localization we
-calculate
-
-
 \subsection{Goal}
 
-The overall goal of the project is to create a system for mapping and
-localization of cars. The scenario to be considered is:
+This project aims at producing an algorithm that provides a solution to the localization problem of the car. The problem is restricted to perform the mapping off-line and the localization on-line. However, the mapping should be done with the same sensors used in the localization and come from normal usage of a car operated by a human.  More
+specifically:
+\begin{itemize}
+\item Use sensor data from normal operation of vehicles, a type of crowd sourcing, to estimate positions of landmarks, i.e. create maps, suitable for localization.
+
+\item Given a map, a vehicle should be able to locate itself in that map using the same type of sensors.
+\end{itemize}
+The scenario to be considered is:
 \begin{enumerate}
-\item  Install sensors on multiple regular cars which drive around as
-  they usually do.
-\item Let these sensors record and store data.
-\item With the recorded data create a global map offline.
+\item Install sensors on multiple cars, which operate in a normal fashion with human drivers. 
+\item Let the sensors record and store data.
+\item With the recorded data create a global map off-line.
 \item A car entering an area that has been mapped by previous car can
   thus localize itself in this map.
 \item New cars can send new sensor measurements to update the global
   map.
 \end{enumerate}
-
-Here the global map refers to an unique map that is shared between
+The global map refers to an unique map that is shared between
 vehicles. With such a system, questions like ``When is the traffic sign
-coming?'' or  ``Is a turn coming soon?'' can be answered. And systematic
-errors in the map can be eliminated thanks to the dynamical updating.
+coming?'' or  ``How far is this tunnel?'' can be answered. 
 
-Further, the project aims at addressing some aspects of vehicle
-\gls{SLAM}. First, the extracted landmarks should be detectable in all
-weathers and lighting conditions. Thus, features that are extracted
-from a camera picture should be invariant to environmental
-conditions. And ultimately the quality of the landmarks can be
-evaluated in many different aspects. For instance, how many sensor
-systems are required in order to provide reliable localization? It is
-imaginable that certain sensor systems maybe not always work. Further,
-given a map of landmarks, for how long does the localization need to
-operate to provide an reliable localization?
+The quality of a landmark are two fold: the error in the estimated position of landmark and the likelihood of detecting the landmark from sensor data. If the position of a landmark can be estimated with high accuracy from some car, but cannot be readily detected by other cars, it is questionable if that type of landmark should be used. Also, the landmark maybe only be detectable during certain conditions that may not always be true. For instance, an advertisement sign could only be detected when it is in the vicinity of the road, however the sign might be replaced after a while. Thus, the extracted landmarks should be detectable in many types of 
+weathers and lighting conditions, to render the system robust.  
 
-\subsection{Radio Localization and Mapping}
 
-GPS signals may not always be available. With the emergence of 5G
+\subsection{SLAM}
+
+The problem of jointly estimating the position of the vehicle and the landmarks is referred to as the \gls{SLAM} problem \cite{DBLP:journals/corr/CadenaCCLSN0L16}. Typically, the 
+
+\subsection{Radio SLAM}
+
+\gls{GNSS} signals may not always be available. With the emergence of 5G
 standard, the project would also consider to integrate radio channel
 estimates of 5GHz, and the commercial LTE
-band into this cooperative offline \gls{SLAM} framework:
+band into this cooperative off-line \gls{SLAM} framework:
 \begin{itemize}
 \item   From a mapping perspective, angular and distance information
   from the radio channel estimates could be used as additional sensor
@@ -111,47 +56,12 @@ vehicles, especially in urban areas, which complement camera and LIDAR
 based SLAM.
 \end{itemize}
 
-\subsection{Major problems}
-Here we list problems that makes this project challenging. These can
-be grouped into two groups: external (environment specific) and
-internal (technical aspects).
-\begin{itemize}
-\item External:
-  \begin{itemize}
-  \item Different timescales in changes of the environment:
-    \begin{itemize}
-    \item (hour scale) Lightning
-    \item (day scale) Different weather conditions
-    \item (month) winter summer
-    \item (year) new buildings
-    \end{itemize}
-  \item The size of area to cover
-  \end{itemize}
-\item Technical:
-  \begin{itemize}
-  \item  How to efficiently merge information from multiple
-    sensors
-  \item  How to efficiently merge information from multiple cars.
-  \item  How to update map over time.
-  \item How to account with multiple measurements.
-  \item  10 m error in GPS position.
-  \item  How to account for sensor failure.
-  \item  How to include new types of sensors in the future.
-  \end{itemize}
-\item  Computational aspects:
-  \begin{itemize}
-  \item   Where to perform calculations: in the car or in the
-    cloud?
-  \item   Where to store a global map, locally or in the cloud?
- \end{itemize}
-\end{itemize}
 
-
-\subsection{What has been done before?}
+\subsection{Visual SLAM}
 
 \gls{SLAM} has been greatly evolved over the year and becomes very
 close to large-scale real-world applications. For the visual based
-\gls{SLAM}, different camera setups, e.g., monocular, stereo or RGB-D
+\gls{SLAM}, different camera set-ups, e.g., monocular, stereo or RGB-D
 cameras, required different algorithms for estimating the motion of
 the camera. In our project, we are more interested in using stereo
 camera as RGB-D camera naturally does not work well in outdoor scenario
@@ -199,14 +109,6 @@ investigated. For instance, persistent localization in longitudinal
 direction.
 
 
-\begin{itemize}
-\item  Scientific \cite{DBLP:journals/corr/CadenaCCLSN0L16}
-\item  Industrial (Mats):
-  \begin{itemize}
-  \item persistent localization in longitudinal direction,
-  \item get the most of all the sensors
-  \end{itemize}
-\end{itemize}
 
 %%% Local Variables:
 %%% mode: latex

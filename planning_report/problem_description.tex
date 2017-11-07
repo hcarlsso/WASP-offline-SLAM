@@ -1,0 +1,79 @@
+\section{Problem Description}
+
+
+The general description of the localization problem is that the car
+jointly estimate its pose and the positions of landmarks relative to
+the car, known as the \gls{SLAM} problem. Included in this problem is
+to find, identify and map new landmarks based on sensor
+measurements. The generic form of the \gls{SLAM} problem can be stated
+as
+\begin{subequations}
+  \begin{align}
+    x_{k+1} & = f_k(x_k, u_k,v_k), \\
+    m_{k+1} & = m_k, \\
+    y_k & = h_k(x_k, m_k, u_k) + e_k.
+  \end{align}
+\end{subequations}
+Here, at the discrete time-points $k$, $x_k$ contains information about
+the state of the vehicle and $m_k$ contains the location of the
+landmarks. The ensemble of the landmarks, $m_{1:k}$ are also denoted as the map,
+and it is assumed that positions of the landmarks remain constant over
+time.
+
+The dynamics of the vehicle is embedded in the function $f_k$, and the observations from the sensors are embedded in the function $h_k$. Each sensor type has an observation model associated with it, and multiple sensors can be parametrized differently. 
+
+Where the positions of the landmarks and the state is jointly
+estimated given all the past measurements. This requires significant
+computational resources for large scale problems. The problem to be
+solved in this project is to separate the map making and the on-line
+localization. The map making can be viewed as a joint smoothing
+problem.
+
+
+Where we again jointly estimates the trajectories  and the positions
+of landmarks  given all measurements . However, we can access future
+measurements to estimate the state , i.e. non-causal filtering, and
+cannot be performed on-line, When we want to perform localization we
+calculate
+
+
+\subsection{Major problems}
+Here we list problems that makes this project challenging. These can
+be grouped into two groups: external (environment specific) and
+internal (technical aspects).
+\begin{itemize}
+\item External:
+  \begin{itemize}
+  \item Different timescales in changes of the environment:
+    \begin{itemize}
+    \item (hour scale) Lightning
+    \item (day scale) Different weather conditions
+    \item (month) winter summer
+    \item (year) new buildings
+    \end{itemize}
+  \item The size of area to cover
+  \end{itemize}
+\item Technical:
+  \begin{itemize}
+  \item  How to efficiently merge information from multiple
+    sensors
+  \item  How to efficiently merge information from multiple cars.
+  \item  How to update map over time.
+  \item How to account with multiple measurements.
+  \item  10 m error in GPS position.
+  \item  How to account for sensor failure.
+  \item  How to include new types of sensors in the future.
+  \end{itemize}
+\item  Computational aspects:
+  \begin{itemize}
+  \item   Where to perform calculations: in the car or in the
+    cloud?
+  \item   Where to store a global map, locally or in the cloud?
+ \end{itemize}
+\end{itemize}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

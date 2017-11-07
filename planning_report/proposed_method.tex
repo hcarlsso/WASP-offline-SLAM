@@ -65,7 +65,12 @@ features.
   algorithm.
 \end{itemize}
 
-To include radio measurementsm there are two options:
+The trajectory of the car over T time steps can be described as   and
+the positions of the landmarks can be described as, which can be
+considered to be static in time. Then the \gls{SLAM} problem solves
+the following filtering problem.
+
+To include radio measurements there are two options:
 \begin{itemize}
 \item To use a USRP with LTE framework and switching antenna array to
   receive commercial LTE signals from base stations, estimate the
