@@ -1,10 +1,12 @@
 \section{Introduction}
 
 Localization is a crucial part of navigation systems. Automotive
-systems have been able to rely on GPS positioning, however, to render
-the car fully autonomous the positioning error from a GPS, in the
-order of 10 m \cite{4770175}, is too high. Hence, the car needs to be
-equipped with other types sensors for localization.
+systems have been able to rely on \gls{GNSS} positioning for driver assistance. 
+The typical position error in \gls{GNSS} are in the
+order of 10 m \cite{4770175}. This magnitude of error is acceptable when a human is operating the car.
+However, a fully autonomous car must be able to localize itself so that it does not for instance spontaneously change lane, which has a width in the same magnitude as the positioning error. Additionally, the autonomous car must be able to operate in many types of environments, from cities with high-rise buildings to tunnels. Satellite positioning systems perform poorly, or not at all, in these types of environments. 
+
+Thus, the autonomous car needs other types of sensors for localization. The types of sensors that have been used for cars are: \gls{LIDAR}, cameras, \gls{IMU}, and radio receivers. However, many of these systems requires a map of the environment, or identifiable landmarks, for the localization system to determine its relative position compared to the landmarks. For instance, if the location of a stop sign was known a priori to the car, and the car could in the vicinity of the sign determine angle and distance with a good accuracy, e.g. centimetres. However, a priori knowledge of the location of landmarks, to such a degree to render the position error of the car acceptable, is rarely available. Thus, there is an additional problem of mapping the environment.
 
 \subsection{General Problem Description}
 
