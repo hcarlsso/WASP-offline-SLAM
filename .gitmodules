@@ -1,0 +1,3 @@
+[submodule "code/sigsys"]
+	path = code/sigsys
+	url = https://github.com/hcarlsso/sigsys.git
