@@ -7,7 +7,7 @@ the car, known as the \gls{SLAM} problem. Included in this problem is
 to find, identify and map new landmarks based on sensor
 measurements. The generic form of the \gls{SLAM} problem can be stated
 as
-\begin{subequations}
+\begin{subequations}\label{eq:slam_problem}
   \begin{align}
     x_{k+1} & = f_k(x_k, u_k,v_k), \\
     m_{k+1} & = m_k, \\
@@ -22,29 +22,34 @@ time.
 
 The dynamics of the vehicle is embedded in the function $f_k$, and the observations from the sensors are embedded in the function $h_k$. Each sensor type has an observation model associated with it, and multiple sensors can be parametrized differently. 
 
-Where the positions of the landmarks and the state is jointly
-estimated given all the past measurements. This requires significant
-computational resources for large scale problems. The problem to be
-solved in this project is to separate the map making and the on-line
-localization. The map making can be viewed as a joint smoothing
-problem.
+Further, the process noise $v_k$ and the measurement noise $e_k$ also plays an important role. In \eqref{eq:slam_problem}, it is assumed that $e_k$ is additive and $v_k$ not necessarily additive. $u_k$ denotes the control input to the system.
 
-
-Where we again jointly estimates the trajectories  and the positions
-of landmarks  given all measurements . However, we can access future
-measurements to estimate the state , i.e. non-causal filtering, and
-cannot be performed on-line, When we want to perform localization we
-calculate
+The general solution to \eqref{eq:slam_problem} is calculate the posterior distribution of the states and the landmarks given the observations, i.e.
+\begin{equation}\label{eq:posterior}
+p(x_{1:T}, m_{1:T} | y_{1:T}),
+\end{equation}
+Thus, the positions of the landmarks and the states are jointly
+estimated given all the measurements. In the context of vehicle \gls{SLAM}, a significant amount of sensors are used and the number of landmarks could be large. Thus, for a large scale problem this would require significant computational resources to be solved on-line. This motivates the separation of the map making and
+localization into off-line map-making and on-line localization. However, it is desirable to exclude a dedicated mapping phase and instead create the maps from normal operation. Thus, from a recorded data set the map-making problem is to calculate
+\begin{equation}\label{eq:map_making_problem}
+p(x_{k}, m_{k} | y_{1:T}),
+\end{equation}
+for $k = 1, \cdots, T$. The localization problem, given new measurements $y_{1:T}$, is consequently to calculate 
+$$
+p(x_{T}| m ,  y_{1:T}),
+$$
+where now $m$ is given by \eqref{eq:map_making_problem}.
 
 
 \subsection{Major problems}
-Here we list problems that makes this project challenging. These can
+
+Localization and mapping are challenging problems in a car context. The diversity of environments to different weather conditions makes it difficult to create robust and reliable solutions. Aspects of the problem can
 be grouped into two groups: external (environment specific) and
 internal (technical aspects).
 \begin{itemize}
 \item External:
   \begin{itemize}
-  \item Different timescales in changes of the environment:
+  \item Different time-scales in changes of the environment:
     \begin{itemize}
     \item (hour scale) Lightning
     \item (day scale) Different weather conditions
@@ -72,6 +77,32 @@ internal (technical aspects).
  \end{itemize}
 \end{itemize}
 
+
+\subsection{Minimum Viable Problem}
+
+The \gls{MVP} is the general problem reduced while still considered to be a relevant problem. In the \gls{MVP}, the following following simplifications/assumptions:
+\begin{itemize}
+\item Evaluation of one data-set
+\item Static environment
+\item Assume all the sensors are calibrated
+\item ``Small dataset'', being able to compute on personal computer
+\end{itemize}
+This scenario could correspond to:
+\begin{enumerate}
+\item Drive to work and record a single sensor data-set
+\item Perform off-line computation
+\item Drive the same road to work and navigate using the map
+\end{enumerate}
+The minimum set of sensors to consider are:
+\begin{itemize}
+\item GPS
+\item Stereo Cameras
+\item IMU
+\item Radio receivers
+\end{itemize}
+
+The localization part should be able to handle multiple sensor types as well as different combinations of them to increase robustness. The system will be evaluated using datasets from
+\url{http://robotcar-dataset.robots.ox.ac.uk/}
 
 %%% Local Variables:
 %%% mode: latex

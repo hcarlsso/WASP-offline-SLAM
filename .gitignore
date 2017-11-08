@@ -11,6 +11,9 @@
 *.cb
 *.cb2
 
+# Exclude the document pdf
+main.pdf
+
 ## Intermediate documents:
 *.dvi
 *-converted-to.*

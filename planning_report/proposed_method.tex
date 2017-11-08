@@ -21,38 +21,11 @@ cars. We will therefore not consider \gls{LIDAR}. We will, however, look
 into radio based localization using the 5G standard, this is not yet
 present in any cars, but may be in the near future.
 
-\subsection{\gls{MVP}}
 
-The \gls{MVP} is the general problem scaled down and simplifying
-assumptions made, while still considered to be a relevant problem. We make the following
-simplification/assumptions:
-\begin{itemize}
-\item Evaluation of one data-set
-\item Static environment
-\item Assume all the sensors are calibrated
-\item ``Small dataset'', being able to compute on personal computer
-\end{itemize}
-This scenario could correspond to:
-\begin{enumerate}
-\item Drive to work and record a single sensor data-set
-\item Perform offline computation
-\item Drive the same road to work and navigate using the map
-\end{enumerate}
-The minimum set of sensors to consider are:
-\begin{itemize}
-\item GPS
-\item Stereo Cameras
-\item IMU
-\item Radio receivers
-\end{itemize}
-
-The localization part should be able to handle multiple sensor types as well as different combinations of them to increase robustness.
-
-
-The system will be evaluated using datasets from
-\url{http://robotcar-dataset.robots.ox.ac.uk/}
 
 \subsection{Minimum viable solution}
+
+What motion model will be used. 
 
 
 The \gls{MVS} solves the \gls{MVP}, and thus only implements the necessary
