@@ -65,20 +65,32 @@ features.
   algorithm.
 \end{itemize}
 
-The trajectory of the car over T time steps can be described as   and
+The trajectory of the car over T time steps can be described as and
 the positions of the landmarks can be described as, which can be
 considered to be static in time. Then the \gls{SLAM} problem solves
 the following filtering problem.
 
-To include radio measurements there are two options:
+The radio based localization could be summarized as three steps:
+
 \begin{itemize}
-\item To use a USRP with LTE framework and switching antenna array to
-  receive commercial LTE signals from base stations, estimate the
-  Angle of Arrival, and time delay of multipath components.
-\item To use channel sounder and antenna arrays (with 32 antenna
-  elements) on both base station and user sides to collect channel
-  information with respect to angles and distances.
+\item Radio channel data collection. There are two options: 
+  \begin{itemize}
+  \item To use channel sounder and antenna arrays (with 32 antenna elements) on both base station and user sides to collect channel information with respect to angles and distances.
+  \item To use a USRP with LTE framework and switching antenna array to receive commercial LTE signals from base stations.
+  \end{itemize}
+High spatial sampling rate of the radio channel is required, typically a few samples per wavelength movement. 
+\item Radio channel parameter estimation. To use the Extended Kalman Filter (EKF) or the space-alternating generalized expectation-maximization (SAGE) based estimator to extract geometrical information of the environment, i.e., propagation path parameters, for example the azimuth/elevation angle of arrival, propagation distance, etc. 
+\item Radio based SLAM. 
 \end{itemize}
+
+The radio channel measurement will be performed locally in Lund. For sensor fusion in the late phase of this project, the measurement with different sensors will be performed simultaneously. 
+\begin{itemize}
+\item Scenario: daytime and outdoor; a static base station and a moving vehicle, and multiple antenna system is available on both sides. 
+\item Equipment: a vehicle (or a manually moved trolley) will be used to accommodate antennas arrays, channel sounder, USRP, cameras, etc.
+\item Synchronization between different sensors: different sensors will be triggered with the same TTL signal.
+\item Ground truth: a camera based positioning system or a highly accurate GPS system will be used to generate ground truth for performance evaluation.     
+\end{itemize}
+
 
 \subsection{Features include after MVP (ranked)}
 
@@ -154,18 +166,8 @@ algorithm, it is possible to perform cross-validation.
 
 The requirements on WARA-CAT are:
 \begin{itemize}
-\item A vehicle (with similar size of Volvo V70) or a manually moved
-  trolley to accommodate the sensors.
-\item Radio equipment :
-  \begin{itemize}
-  \item   antenna arrays,
-  \item  channel sounder,
-  \item USRP,
-  \item laptop
-  \end{itemize}
   \item Test environment for data collection using the defined sensor in
     \ref{sec:sensor-setup}
-\item 5G network for radio localization.
 \item Ground truth of the vehicle for evaluation of algorithms.
 \end{itemize}
 
