@@ -37,42 +37,64 @@ weathers and lighting conditions, to render the system robust.
 
 \subsection{SLAM}
 
-%The problem of jointly estimating the position of the vehicle and the landmarks is referred to as the \gls{SLAM} problem \cite{DBLP:journals/corr/CadenaCCLSN0L16}. The landmark can represent any well-defined point in the world, that can be detected by sensors. The landmarks can differ depending on what type of sensor that is used. For instance, a radio transmitter can receive signals from the base station, and thus the relative distance between the transmitter and the base-station can be measured. However, the
+The problem of jointly estimating the position of the vehicle and the landmarks 
+is referred to as the \gls{SLAM} problem 
+\cite{DBLP:journals/corr/CadenaCCLSN0L16}. The landmark can represent any 
+well-defined point in the world, that can be detected by sensors. The landmarks 
+can differ depending on what type of sensor that is used. For instance, a radio 
+transmitter can receive signals from the base station, and thus the relative 
+distance between the transmitter and the base-station can be measured. However, 
+from radio measurements, information about the location of a stop sign cannot 
+be extracted, which could be provided by a camera sensor. Thus, different type 
+of sensor modalities can yield different types of landmarks, but they could 
+also be coupled, e.g. the location of a stop sign can be measured from a 
+camera, but also from a \gls{LIDAR}. Below some sensor types are listed.
+
+\gls{SLAM} has been greatly evolved over the years and has become mature enough 
+for large-scale real-world applications. 
 
 \subsection{Radio SLAM}
 
 \gls{GNSS} signals may not always be available. With the emergence of 5G
-standard, the project would also consider to integrate radio channel
-estimates of 5GHz, and the commercial LTE
-band into this cooperative off-line \gls{SLAM} framework:
+standard, the project would also consider \gls{SLAM} based on radio receiver 
+measurements. Here the measurements would correspond to signal strength and/or 
+angle of arrival of the radio signal from the base-station to the radio 
+receiver. The landmarks in this sensor modality is then the location of the 
+base-stations. 
+
+To integrate radio channel
+estimates of 5GHz, and the commercial \gls{LTE} band into this cooperative 
+off-line \gls{SLAM} framework:
 \begin{itemize}
 \item   From a mapping perspective, angular and distance information
-  from the radio channel estimates could be used as additional sensor
-  of the environment, with complementary characteristics compared to
-  camera and LIDAR information.
+  from the radio channel estimates could used to estimate the location of the 
+  base-stations.
 \item From a positioning perspective, radio-based positioning using
 multi-antenna reception could provide accurate location information of
-vehicles, especially in urban areas, which complement camera and LIDAR
-based SLAM.
+vehicles, especially in urban areas where \gls{GNSS} signal may be weak.
 \end{itemize}
-
 
 \subsection{Visual SLAM}
 
-\gls{SLAM} has been greatly evolved over the year and becomes very
-close to large-scale real-world applications. For the visual based
-\gls{SLAM}, different camera set-ups, e.g., monocular, stereo or RGB-D
-cameras, required different algorithms for estimating the motion of
-the camera. In our project, we are more interested in using stereo
-camera as RGB-D camera naturally does not work well in outdoor scenario
+For the visual based \gls{SLAM}, different camera set-ups, e.g., monocular, 
+stereo or RGB-D
+cameras, require different algorithms for estimating the motion of
+the camera. In camera based \gls{SLAM}, the landmarks corresponds to features 
+that are extracted from the image. There are different methods that extract 
+features from an image, e.g. \gls{SIFT}\cite{Lowe:1999:ORL:850924.851523},  
+\gls{SURF}\cite{Bay:2008:SRF:1370312.1370556} and 
+\gls{ORB}\cite{Rublee:2011:OEA:2355573.2356268}.
+
+In this project, using a stereo camera is a more feasible option 
+because a RGB-D camera naturally does not work well in outdoor scenario
 and single camera potentially will suffer from the lack of estimation
 of true scale.
 
-
-For stereo visual \gls{SLAM}, here we listed several modern systems
+For stereo visual \gls{SLAM}, there are several modern systems
 which have been extensively verified in different
-benchmarks. ORB-SLAM\cite{DBLP:journals/corr/Mur-ArtalT16a} is one of the modern sparse visual \gls{SLAM}
-system, it is based on keypoint feature matching and sparse bundle
+benchmarks. \gls{ORB}-\gls{SLAM}\cite{DBLP:journals/corr/Mur-ArtalT16a} is one 
+of the modern sparse visual \gls{SLAM}
+system, it is based on key-point feature matching and sparse bundle
 adjustment for estimating the motion of camera. Stereo LSD-SLAM\cite{7353631} is
 a direct method which is feature free, the tracker is directly
 optimizing the photometric error of  high gradient regions in the
@@ -81,32 +103,22 @@ features and then uses small image patches around them to perform
 direct tracking. The tracked points are then input to a sparse bundle
 adjustment back-end.
 
-Opposing to camera based \gls{SLAM}, velodyne liked Lidars are capable
+\subsection{LiDAR SLAM}
+
+As opposed to the camera based \gls{SLAM}, \gls{LIDAR}s capable
 of generating dense and accurate depth map with relatively long range
 outdoor. It is usually based on the direct alignment of point cloud
-using classical iterative closest point algorithm or its variants. On
-other trend, inertial unit is also an appealing option due to its low
-cost and high data rate (hundreds of Hz). It is very useful to recover
-the scale drift and provide aid when camera or lidar cannot run on par
-with it in the same speed. At last, there is also GPS which could
-provide direct position measurement and typically works in 5-10 meters
-level precision when the signal is available. Though GPS could be a
-possible solution for navigation, but hardly be enough for positioning
-the vehicle in the correct lane.
+using classical iterative closest point algorithm or its variants. 
 
+\subsection{Inertial Navigation}
 
-\subsection{Industrial and the scientific relevance}
+When constructing \gls{SLAM} systems, it is common to include \gls{IMU} to 
+provide an inertial navigation solution. Since it is low
+cost and has high data rate (hundreds of Hz), it can estimate the motion of the 
+target in-between other types of measurements. For instance, the \gls{IMU} can 
+be used to compensate for the scale drift that can occur in the camera or 
+\gls{LIDAR} estimation of the motion. 
 
-For both scientific and industrial aspects, it is an interesting topic
-to build a map consists of measurements from different types of
-sensors which will help to recover from sensor failure in certain
-cases during the system is running. In scientific aspect, point clouds
-and boundary representations are currently dominating the landscape of
-dense mapping, higher-level representations, including objects and
-shapes, will play a key role in the future of \gls{SLAM} \cite{DBLP:journals/corr/CadenaCCLSN0L16}. In
-industrial aspect, there are other other assumption worth to be
-investigated. For instance, persistent localization in longitudinal
-direction.
 
 
 

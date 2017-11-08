@@ -40,6 +40,20 @@ p(x_{T}| m ,  y_{1:T}),
 $$
 where now $m$ is given by \eqref{eq:map_making_problem}.
 
+\subsection{Sensor set-up}\label{sec:sensor-setup}
+The sensors available in the test vehicle are the following:
+\begin{itemize}
+\item Stereo Cameras (Autoliv)
+\item GPS+IMU (Applanix LV V5,
+  \url{https://www.applanix.com/downloads/products/specs/POSLV_DS_feb_2017_yw.PD
+  })
+\item  \gls{LIDAR} (Velodyne HD132E)
+\item  Radars
+\item  Radio based localization (5G).
+\item  Wheel encoders
+\end{itemize}
+Although all sensors could be used in the \gls{SLAM} problem, not all of them 
+are necessary to provide a solution. 
 
 \subsection{Major problems}
 

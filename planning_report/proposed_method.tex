@@ -1,19 +1,11 @@
 \section{Proposed Method}
 
-As previously mentioned we start with a set of specifications for a \gls{MVP}. From there, we will then add features according to a ranked feature list. See specifications in the subsections below.
+The methodology in this to first address the \gls{MVP}, and state the  
+specifications for a \gls{MVP}, see Section \ref{sec:mvs}. From there, features 
+will then be added 
+according to a feature list, see Section \ref{sec:features}.
 
-\subsection{Sensor setup}\label{sec:sensor-setup}
-The sensors that the XC90 are equipped with are:
-\begin{itemize}
-\item Stereo Cameras (Autoliv)
-\item GPS+IMU (Applanix LV V5,
-  \url{https://www.applanix.com/downloads/products/specs/POSLV_DS_feb_2017_yw.PD
-  })
-\item  \gls{LIDAR} (Velodyne HD132E)
-\item  Radars
-\item  Radio based localization (5G).
-\item  Wheel encoders
-\end{itemize}
+\subsection{Minimum viable solution}\label{sec:mvs}
 
 Since the idea is that the data will be “crowd sourced” the sensors
 need to be fairly cheap so that they likely are equipped on many
@@ -21,12 +13,7 @@ cars. We will therefore not consider \gls{LIDAR}. We will, however, look
 into radio based localization using the 5G standard, this is not yet
 present in any cars, but may be in the near future.
 
-
-
-\subsection{Minimum viable solution}
-
 What motion model will be used. 
-
 
 The \gls{MVS} solves the \gls{MVP}, and thus only implements the necessary
 features.
@@ -43,13 +30,16 @@ the positions of the landmarks can be described as, which can be
 considered to be static in time. Then the \gls{SLAM} problem solves
 the following filtering problem.
 
+\subsection{Radio Measurements}\label{sec:radio_measurements}
+
 The radio based localization could be summarized as three steps:
 
 \begin{itemize}
 \item Radio channel data collection. There are two options: 
   \begin{itemize}
   \item To use channel sounder and antenna arrays (with 32 antenna elements) on both base station and user sides to collect channel information with respect to angles and distances.
-  \item To use a USRP with LTE framework and switching antenna array to receive commercial LTE signals from base stations.
+  \item To use a USRP with \gls{LTE} framework and switching antenna array to 
+  receive commercial LTE signals from base stations.
   \end{itemize}
 High spatial sampling rate of the radio channel is required, typically a few samples per wavelength movement. 
 \item Radio channel parameter estimation. To use the Extended Kalman Filter (EKF) or the space-alternating generalized expectation-maximization (SAGE) based estimator to extract geometrical information of the environment, i.e., propagation path parameters, for example the azimuth/elevation angle of arrival, propagation distance, etc. 
@@ -65,7 +55,7 @@ The radio channel measurement will be performed locally in Lund. For sensor fusi
 \end{itemize}
 
 
-\subsection{Features include after MVP (ranked)}
+\subsection{Features include after MVP}\label{sec:features}
 
 Listed below are features are considered ``good to have'' but not
 necessary:
