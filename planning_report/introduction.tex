@@ -62,8 +62,7 @@ angle of arrival of the radio signal from the base-station to the radio
 receiver. The landmarks in this sensor modality is then the location of the 
 base-stations. 
 
-To integrate radio channel
-estimates of 5GHz, and the commercial \gls{LTE} band into this cooperative 
+To integrate radio channel estimates of 5GHz, and the commercial \gls{LTE} band into this cooperative 
 off-line \gls{SLAM} framework:
 \begin{itemize}
 \item   From a mapping perspective, angular and distance information
@@ -73,6 +72,23 @@ off-line \gls{SLAM} framework:
 multi-antenna reception could provide accurate location information of
 vehicles, especially in urban areas where \gls{GNSS} signal may be weak.
 \end{itemize}
+
+One measurement of the radio channel could be modelled as the combination of the specular components $ \mathbf{h}_{sp} $, dense multipath component (DMC) $ \mathbf{h}_{dmc} $ and measurement noise $ \mathbf{h}_n $, yielding:
+\begin{equation}
+\mathbf{y}_k = \mathbf{h}_{sp} + \mathbf{h}_{dmc} + \mathbf{h}_n.
+\label{eq:channelmodel}
+\end{equation}
+Radio based SLAM relies on the geometrical information from $ \mathbf{h}_{sp} $, which is characterized as a superposition of specular multipath propagation components (MPCs). $ \mathbf{h}_{dmc} $ and $ \mathbf{h}_n $ constitute measurement impairments for our purpose, which is further modelled as the covariance matrix. $ \mathbf{h}_{sp} $ could be further formulated as:
+\begin{equation}
+\mathbf{h}_{sp} = \textbf{s}(\mathbf{\boldsymbol{\mu}_k}, \mathbf{\boldsymbol{\gamma}}_k).
+\label{eq:channelmodel}
+\end{equation}
+\begin{equation}
+\mathbf{\boldsymbol{\mu}} = [\mathbf{\boldsymbol{d}}^\text{T} \quad  \mathbf{\boldsymbol{\varphi}}^\text{T}_\text{Tx} \quad  \mathbf{\boldsymbol{\theta}}^\text{T}_\text{Tx} \quad \mathbf{\boldsymbol{\varphi}}^\text{T}_\text{Rx} \quad  \mathbf{\boldsymbol{\theta}}^\text{T}_\text{Rx}],
+\end{equation}
+where $ \mathbf{\boldsymbol{d}} $ is the propagation distance of each MPC from the base station to the moving agent (e.g., the vehicle). $ \mathbf{\boldsymbol{\varphi}} $ and $ \mathbf{\boldsymbol{\theta}} $ represent the azimuth and elevation AOAs in the 3D space on both sides. These geometrical information related to the environment will be further used for the localization of the moving agent and mapping.
+
+
 
 \subsection{Visual SLAM}
 
