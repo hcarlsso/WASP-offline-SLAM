@@ -120,6 +120,30 @@ From the segmented images, it is possible to get an \gls{AOA}
 measurement. From the image, the center of gravity can be computed,
 and can be compared with the field of view of the sensing camera.
 
+\subsection{Motion model}
+As a motion model for sensor fusion we will use the bicycle model adapted for a car.
+The parameters are shown in figure \ref{fig:motion_model}. The state space model is defined as
+
+\begin{equation}
+ \begin{array}[b]{r}
+  \dot{x} = v \cos \theta \\
+  \dot{y} = v \sin \theta \\
+  \dot{\theta} = \frac{v}{L} \tan{\phi}
+ \end{array}
+\end{equation}
+
+where $v$ is speed of the car and $\phi$ is the steering angle. 
+These can be observed using an IMU and/or estimates from the onboard car sensors.
+
+
+\begin{figure}
+\label{fig:motion_model}
+\includegraphics[width=0.3\textwidth]{figures/bicycle_model.pdf}
+\caption{Bicycle motion model adapted for car}
+\end{figure}
+
+
+
 \subsection{Performance assessment}
 
 In order to assess the performance of the offline \gls{SLAM}
