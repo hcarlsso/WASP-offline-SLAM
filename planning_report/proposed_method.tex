@@ -109,6 +109,16 @@ necessary:
 \item Be able to handle different types of sensors, such as different camera types, e.g. normal lens, fish lens, HD camera.
 \end{itemize}
 
+\subsection{Sparse visual odometry}
+
+ Sparse bundle adjustment is performed for the localization using stereo cameras. For both left and right images, ORB features are extracted at required time stamps. k-Nearest Neighbor(k-NN) matching is performed to find correspondence for static and temporal stereo. As the feature points are represented using homogeneous coordinates, static stereo is used for estimating the scale of these coordinates. After the scales are obtained, the feature points can be projected into 3D space in its local camera frame. The sparse bundle adjustment can be then performed by using temporal matched features. More specifically, the following residual is minimized to estimate the current camera pose:
+
+	\begin{equation} \label{eq:pnp}
+	E (\bm{\xi}) = \sum_i r_i(\bm{\xi}) = \sum_i ( \bm{x_i} - \pi^{-1}( \mathbf{R} \mathbf{\cdot} \pi(\bm{y_i}) + \mathbf{t}))^2
+	\end{equation}
+ where $\bm{\xi}$ is 6DOF parameters to be estimated and it can be represented by a rotation $\mathbf{R}$ and translation $\mathbf{t}$. $\bm{x_i}$ and $\bm{y_i}$ are matched feature pairs. $\pi$ is the warping function using camera intrinsic. 
+ 
+
 \subsection{Feature extraction camera}
 
 The landmarks extracted from the camera can be done using semantic
