@@ -7,28 +7,50 @@ according to a feature list, see Section \ref{sec:features}.
 
 \subsection{Minimum viable solution}\label{sec:mvs}
 
-Since the idea is that the data will be “crowd sourced” the sensors
-need to be fairly cheap so that they likely are equipped on many
-cars. We will therefore not consider \gls{LIDAR}. We will, however, look
-into radio based localization using the 5G standard, this is not yet
-present in any cars, but may be in the near future.
+Initially, the project to aims to address the mapping phase, and if time allows 
+implement a localization module as well. Since the idea is that the data will 
+be ``crowd sourced'' the sensors cannot be expected to be high cost, therefore 
+\gls{LIDAR} measurements are not initially considered. The types of sensor that 
+first will be investigated are radio measurements, \gls{GNSS}, inertial 
+navigation, and camera sensors.
 
-What motion model will be used. 
+Due to the separation of landmarks in radio and camera measurements, these two 
+systems can provide an independent estimate of the dynamical states, $x_{1:T}$ 
+and the separate landmarks $m_{r,1:T}$ for radio and $m_{v,1:T}$ for the 
+camera. 
 
-The \gls{MVS} solves the \gls{MVP}, and thus only implements the necessary
-features.
-\begin{itemize}
-\item A sensor fusion algorithm is used to combine the information
-  from different sensors including camera, LIDAR, USRP, channel
-  sounder.
-\item Estimate and track the position of the vehicle based on a SLAM
-  algorithm.
-\end{itemize}
+\subsection{Sensor Fusion}
 
-The trajectory of the car over T time steps can be described as and
-the positions of the landmarks can be described as, which can be
-considered to be static in time. Then the \gls{SLAM} problem solves
-the following filtering problem.
+Describe the sensor fusion algorithm here, EKF with information filter?
+
+\subsection{Motion model}
+
+As a motion model for dynamics of the vehicle, we will use the bicycle model 
+adapted for a 
+car.
+The parameters are shown in figure \ref{fig:motion_model}. The state space 
+model is defined as
+
+\begin{equation}
+ \begin{array}[b]{r}
+  \dot{x}  = v \cos \theta \\
+  \dot{y}  = v \sin \theta \\
+  \dot{\theta}  = \frac{v}{L} \tan{\phi}
+ \end{array}
+\end{equation}
+
+where $v$ is speed of the car and $\phi$ is the steering angle. 
+These can be observed using an \gls{IMU} and/or estimates from the onboard car 
+sensors. This provides a model for $f_k$ in Equations \eqref{eq:slam_problem}.
+
+
+\begin{figure}
+\centering
+\label{fig:motion_model}
+\includegraphics[width=0.3\textwidth]{figures/bicycle_model.pdf}
+\caption{Bicycle motion model adapted for car}
+\end{figure}
+
 
 \subsection{Radio Measurements}\label{sec:radio_measurements}
 
@@ -42,7 +64,11 @@ The radio based localization could be summarized as three steps:
   receive commercial LTE signals from base stations.
   \end{itemize}
 High spatial sampling rate of the radio channel is required, typically a few samples per wavelength movement. 
-\item Radio channel parameter estimation. To use the Extended Kalman Filter (EKF) or the space-alternating generalized expectation-maximization (SAGE) based estimator to extract geometrical information of the environment, i.e., propagation path parameters, for example the azimuth/elevation angle of arrival, propagation distance, etc. 
+\item Radio channel parameter estimation. To use the \gls{EKF} or the 
+space-alternating generalized expectation-maximization (SAGE) based estimator 
+to extract geometrical information of the environment, i.e., propagation path 
+parameters, for example the azimuth/elevation angle of arrival, propagation 
+distance, etc. 
 \item Radio based SLAM. 
 \end{itemize}
 
@@ -95,33 +121,11 @@ From the segmented images, it is possible to get an \gls{AOA}
 measurement. From the image, the center of gravity can be computed,
 and can be compared with the field of view of the sensing camera.
 
-\subsection{Motion model}
-As a motion model for sensor fusion we will use the bicycle model adapted for a car.
-The parameters are shown in figure \ref{fig:motion_model}. The state space model is defined as
-
-\begin{equation}
- \begin{array}[b]{r}
-  \dot{x} = v \cos \theta \\
-  \dot{y} = v \sin \theta \\
-  \dot{\theta} = \frac{v}{L} \tan{\phi}
- \end{array}
-\end{equation}
-
-where $v$ is speed of the car and $\phi$ is the steering angle. 
-These can be observed using an IMU and/or estimates from the onboard car sensors.
-
-
-\begin{figure}
-\label{fig:motion_model}
-\includegraphics[width=0.3\textwidth]{figures/bicycle_model.pdf}
-\caption{Bicycle motion model adapted for car}
-\end{figure}
-
 
 
 \subsection{Performance assessment}
 
-In order to assess the performance of the offline \gls{SLAM}
+In order to assess the performance of the off-line \gls{SLAM}
 algorithm, it is possible to perform cross-validation.
 
 \subsection{Research arenas (WARA-CAT)}
