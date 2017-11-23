@@ -1,12 +1,32 @@
 \section{Introduction}
 
 Localization is a crucial part of navigation systems. Automotive
-systems have been able to rely on \gls{GNSS} positioning for driver assistance. 
-The typical position error in \gls{GNSS} are in the
-order of 10 m \cite{4770175}. This magnitude of error is acceptable when a human is operating the car.
-However, a fully autonomous car must be able to localize itself so that it does not for instance spontaneously change lane, which has a width in the same magnitude as the positioning error. Additionally, the autonomous car must be able to operate in many types of environments, from cities with high-rise buildings to tunnels. Satellite positioning systems perform poorly, or not at all, in these types of environments. 
+systems have been able to rely on \gls{GNSS} positioning for driver
+assistance, where typical position error is are in the
+order of 10 m \cite{4770175}. This magnitude of error is acceptable
+when the purpose of the position estimate is to function as driver assistance.
+However, a prerequisite for autonomous cars is the ability of the car
+system to robustly localize in many types of environments and weather
+conditions. For instance, spontaneous change lane can occur if the
+lane width is in the same magnitude as the positioning
+error. Additionally, the environments can include cities with
+high-rise buildings and tunnels, where the performance of \gls{GNSS}
+systems could degrade up to the point of not functioning at all.
 
-Thus, the autonomous car needs other types of sensors for localization. The types of sensors that have been used for cars are: \gls{LIDAR}, cameras, \gls{IMU}, and radio receivers. However, many of these systems requires a map of the environment, or identifiable landmarks, for the localization system to determine its relative position compared to the landmarks. For instance, if the location of a stop sign was known a priori to the car, and the car could in the vicinity of the sign determine angle and distance with a good accuracy, e.g. centimetres. However, a priori knowledge of the location of landmarks, to such a degree to render the position error of the car acceptable, is rarely available. Thus, there is an additional problem of mapping the environment.
+Thus, the autonomous car needs additional types of sensors for
+localization, then solely a \gls{GNSS} receiver. The types of sensors
+that have been used for cars are: \gls{LIDAR}, cameras, \gls{IMU}, and
+radio receivers. However, many of these systems requires a predefined map of the
+environment, or identifiable landmarks, for the localization system to
+determine its position in the predefined map, or relative position
+compared to the landmarks. For instance, if the location of a stop
+sign was known a priori to the car, the car could measure angle and
+distance to the sign in its vicinity. If a \gls{LIDAR} is used, the
+typical measurement error is in the order of centimeters, which thus
+would be the position error of the car. However, a priori knowledge of the location of
+landmarks, to such a degree to render the position error of the car
+acceptable, is rarely available. Thus, there is an additional problem
+of mapping the environment.
 
 \subsection{Goal}
 
@@ -19,7 +39,7 @@ specifically:
 \end{itemize}
 The scenario to be considered is:
 \begin{enumerate}
-\item Install sensors on multiple cars, which operate in a normal fashion with human drivers. 
+\item Install sensors on multiple cars, which operate in a normal fashion with human drivers.
 \item Let the sensors record and store data.
 \item With the recorded data create a global map off-line.
 \item A car entering an area that has been mapped by previous car can
@@ -29,44 +49,44 @@ The scenario to be considered is:
 \end{enumerate}
 The global map refers to an unique map that is shared between
 vehicles. With such a system, questions like ``When is the traffic sign
-coming?'' or  ``How far is this tunnel?'' can be answered. 
+coming?'' or  ``How far is this tunnel?'' can be answered.
 
-The quality of a landmark are two fold: the error in the estimated position of landmark and the likelihood of detecting the landmark from sensor data. If the position of a landmark can be estimated with high accuracy from some car, but cannot be readily detected by other cars, it is questionable if that type of landmark should be used. Also, the landmark maybe only be detectable during certain conditions that may not always be true. For instance, an advertisement sign could only be detected when it is in the vicinity of the road, however the sign might be replaced after a while. Thus, the extracted landmarks should be detectable in many types of 
-weathers and lighting conditions, to render the system robust.  
+The quality of a landmark are two fold: the error in the estimated position of landmark and the likelihood of detecting the landmark from sensor data. If the position of a landmark can be estimated with high accuracy from some car, but cannot be readily detected by other cars, it is questionable if that type of landmark should be used. Also, the landmark maybe only be detectable during certain conditions that may not always be true. For instance, an advertisement sign could only be detected when it is in the vicinity of the road, however the sign might be replaced after a while. Thus, the extracted landmarks should be detectable in many types of
+weathers and lighting conditions, to render the system robust.
 
 
 \subsection{SLAM}
 
-The problem of jointly estimating the position of the vehicle and the landmarks 
-is referred to as the \gls{SLAM} problem 
-\cite{DBLP:journals/corr/CadenaCCLSN0L16}. The landmark can represent any 
-well-defined point in the world, that can be detected by sensors. The landmarks 
-can differ depending on what type of sensor that is used. For instance, a radio 
-transmitter can receive signals from the base station, and thus the relative 
-distance between the transmitter and the base-station can be measured. However, 
-from radio measurements, information about the location of a stop sign cannot 
-be extracted, which could be provided by a camera sensor. Thus, different type 
-of sensor modalities can yield different types of landmarks, but they could 
-also be coupled, e.g. the location of a stop sign can be measured from a 
+The problem of jointly estimating the position of the vehicle and the landmarks
+is referred to as the \gls{SLAM} problem
+\cite{DBLP:journals/corr/CadenaCCLSN0L16}. The landmark can represent any
+well-defined point in the world, that can be detected by sensors. The landmarks
+can differ depending on what type of sensor that is used. For instance, a radio
+transmitter can receive signals from the base station, and thus the relative
+distance between the transmitter and the base-station can be measured. However,
+from radio measurements, information about the location of a stop sign cannot
+be extracted, which could be provided by a camera sensor. Thus, different type
+of sensor modalities can yield different types of landmarks, but they could
+also be coupled, e.g. the location of a stop sign can be measured from a
 camera, but also from a \gls{LIDAR}. Below some sensor types are listed.
 
-\gls{SLAM} has been greatly evolved over the years and has become mature enough 
-for large-scale real-world applications. 
+\gls{SLAM} has been greatly evolved over the years and has become mature enough
+for large-scale real-world applications.
 
 \subsection{Radio SLAM}
 
 \gls{GNSS} signals may not always be available. With the emergence of 5G
-standard, the project would also consider \gls{SLAM} based on radio receiver 
-measurements. Here the measurements would correspond to signal strength and/or 
-angle of arrival of the radio signal from the base-station to the radio 
-receiver. The landmarks in this sensor modality is then the location of the 
-base-stations. 
+standard, the project would also consider \gls{SLAM} based on radio receiver
+measurements. Here the measurements would correspond to signal strength and/or
+angle of arrival of the radio signal from the base-station to the radio
+receiver. The landmarks in this sensor modality is then the location of the
+base-stations.
 
-To integrate radio channel estimates of 5GHz, and the commercial \gls{LTE} band into this cooperative 
+To integrate radio channel estimates of 5GHz, and the commercial \gls{LTE} band into this cooperative
 off-line \gls{SLAM} framework:
 \begin{itemize}
 \item   From a mapping perspective, angular and distance information
-  from the radio channel estimates could used to estimate the location of the 
+  from the radio channel estimates could used to estimate the location of the
   base-stations.
 \item From a positioning perspective, radio-based positioning using
 multi-antenna reception could provide accurate location information of
@@ -92,23 +112,23 @@ where $ \mathbf{\boldsymbol{d}} $ is the propagation distance of each MPC from t
 
 \subsection{Visual SLAM}
 
-For the visual based \gls{SLAM}, different camera set-ups, e.g., monocular, 
+For the visual based \gls{SLAM}, different camera set-ups, e.g., monocular,
 stereo or RGB-D
 cameras, require different algorithms for estimating the motion of
-the camera. In camera based \gls{SLAM}, the landmarks corresponds to features 
-that are extracted from the image. There are different methods that extract 
-features from an image, e.g. \gls{SIFT}\cite{Lowe:1999:ORL:850924.851523},  
-\gls{SURF}\cite{Bay:2008:SRF:1370312.1370556} and 
+the camera. In camera based \gls{SLAM}, the landmarks corresponds to features
+that are extracted from the image. There are different methods that extract
+features from an image, e.g. \gls{SIFT}\cite{Lowe:1999:ORL:850924.851523},
+\gls{SURF}\cite{Bay:2008:SRF:1370312.1370556} and
 \gls{ORB}\cite{Rublee:2011:OEA:2355573.2356268}.
 
-In this project, using a stereo camera is a more feasible option 
+In this project, using a stereo camera is a more feasible option
 because a RGB-D camera naturally does not work well in outdoor scenario
 and single camera potentially will suffer from the lack of estimation
 of true scale.
 
 For stereo visual \gls{SLAM}, there are several modern systems
 which have been extensively verified in different
-benchmarks. \gls{ORB}-\gls{SLAM}\cite{DBLP:journals/corr/Mur-ArtalT16a} is one 
+benchmarks. \gls{ORB}-\gls{SLAM}\cite{DBLP:journals/corr/Mur-ArtalT16a} is one
 of the modern sparse visual \gls{SLAM}
 system, it is based on key-point feature matching and sparse bundle
 adjustment for estimating the motion of camera. Stereo LSD-SLAM\cite{7353631} is
@@ -124,16 +144,16 @@ adjustment back-end.
 As opposed to the camera based \gls{SLAM}, \gls{LIDAR}s capable
 of generating dense and accurate depth map with relatively long range
 outdoor. It is usually based on the direct alignment of point cloud
-using classical iterative closest point algorithm or its variants. 
+using classical iterative closest point algorithm or its variants.
 
 \subsection{Inertial Navigation}
 
-When constructing \gls{SLAM} systems, it is common to include \gls{IMU} to 
+When constructing \gls{SLAM} systems, it is common to include \gls{IMU} to
 provide an inertial navigation solution. Since it is low
-cost and has high data rate (hundreds of Hz), it can estimate the motion of the 
-target in-between other types of measurements. For instance, the \gls{IMU} can 
-be used to compensate for the scale drift that can occur in the camera or 
-\gls{LIDAR} estimation of the motion. 
+cost and has high data rate (hundreds of Hz), it can estimate the motion of the
+target in-between other types of measurements. For instance, the \gls{IMU} can
+be used to compensate for the scale drift that can occur in the camera or
+\gls{LIDAR} estimation of the motion.
 
 
 
