@@ -65,13 +65,11 @@ can differ depending on what type of sensor that is used. For instance, a radio
 transmitter can receive signals from the base station, and thus the relative
 distance between the transmitter and the base-station can be measured. However,
 from radio measurements, information about the location of a stop sign cannot
-be extracted, which could be provided by a camera sensor. Thus, different type
+be extracted, which could be provided by a camera sensor. Thus, different types
 of sensor modalities can yield different types of landmarks, but they could
 also be coupled, e.g. the location of a stop sign can be measured from a
-camera, but also from a \gls{LIDAR}. Below some sensor types are listed.
-
-\gls{SLAM} has been greatly evolved over the years and has become mature enough
-for large-scale real-world applications.
+camera, but also from a \gls{LIDAR}. In the sections below, some
+sensor types are described.
 
 \subsection{Radio SLAM}
 
@@ -80,35 +78,11 @@ standard, the project would also consider \gls{SLAM} based on radio receiver
 measurements. Here the measurements would correspond to signal strength and/or
 angle of arrival of the radio signal from the base-station to the radio
 receiver. The landmarks in this sensor modality is then the location of the
-base-stations.
-
-To integrate radio channel estimates of 5GHz, and the commercial \gls{LTE} band into this cooperative
-off-line \gls{SLAM} framework:
-\begin{itemize}
-\item   From a mapping perspective, angular and distance information
-  from the radio channel estimates could used to estimate the location of the
-  base-stations.
-\item From a positioning perspective, radio-based positioning using
-multi-antenna reception could provide accurate location information of
-vehicles, especially in urban areas where \gls{GNSS} signal may be weak.
-\end{itemize}
-
-One measurement of the radio channel could be modelled as the combination of the specular components $ \mathbf{h}_{sp} $, dense multipath component (DMC) $ \mathbf{h}_{dmc} $ and measurement noise $ \mathbf{h}_n $, yielding:
-\begin{equation}
-\mathbf{y}_k = \mathbf{h}_{sp} + \mathbf{h}_{dmc} + \mathbf{h}_n.
-\label{eq:channelmodel}
-\end{equation}
-Radio based SLAM relies on the geometrical information from $ \mathbf{h}_{sp} $, which is characterized as a superposition of specular multipath propagation components (MPCs). $ \mathbf{h}_{dmc} $ and $ \mathbf{h}_n $ constitute measurement impairments for our purpose, which is further modelled as the covariance matrix. $ \mathbf{h}_{sp} $ could be further formulated as:
-\begin{equation}
-\mathbf{h}_{sp} = \textbf{s}(\mathbf{\boldsymbol{\mu}_k}, \mathbf{\boldsymbol{\gamma}}_k).
-\label{eq:channelmodel}
-\end{equation}
-\begin{equation}
-\mathbf{\boldsymbol{\mu}} = [\mathbf{\boldsymbol{d}}^\text{T} \quad  \mathbf{\boldsymbol{\varphi}}^\text{T}_\text{Tx} \quad  \mathbf{\boldsymbol{\theta}}^\text{T}_\text{Tx} \quad \mathbf{\boldsymbol{\varphi}}^\text{T}_\text{Rx} \quad  \mathbf{\boldsymbol{\theta}}^\text{T}_\text{Rx}],
-\end{equation}
-where $ \mathbf{\boldsymbol{d}} $ is the propagation distance of each MPC from the base station to the moving agent (e.g., the vehicle). $ \mathbf{\boldsymbol{\varphi}} $ and $ \mathbf{\boldsymbol{\theta}} $ represent the azimuth and elevation AOAs in the 3D space on both sides. These geometrical information related to the environment will be further used for the localization of the moving agent and mapping.
-
-
+base-stations. The typical localization measurements performed the in radio receivers
+are angular and distance information to the base-stations. Typically,
+these radio stations already have a determined position, which would
+reduce the \gls{SLAM} problem by omitting the estimation of the
+positions of the base-stations.
 
 \subsection{Visual SLAM}
 
@@ -124,17 +98,17 @@ features from an image, e.g. \gls{SIFT}\cite{Lowe:1999:ORL:850924.851523},
 In this project, using a stereo camera is a more feasible option
 because a RGB-D camera naturally does not work well in outdoor scenario
 and single camera potentially will suffer from the lack of estimation
-of true scale.
+of true scale \cite{Royer2007}, if no reference is given.
 
 For stereo visual \gls{SLAM}, there are several modern systems
 which have been extensively verified in different
 benchmarks. \gls{ORB}-\gls{SLAM}\cite{DBLP:journals/corr/Mur-ArtalT16a} is one
 of the modern sparse visual \gls{SLAM}
 system, it is based on key-point feature matching and sparse bundle
-adjustment for estimating the motion of camera. Stereo LSD-SLAM\cite{7353631} is
+adjustment for estimating the motion of camera. Stereo \gls{LSD}-\gls{SLAM}\cite{7353631} is
 a direct method which is feature free, the tracker is directly
 optimizing the photometric error of  high gradient regions in the
-images. SVO\cite{7782863} is a combination of both, it firstly detects sparse
+images. \gls{SVO}\cite{7782863} is a combination of both, it firstly detects sparse
 features and then uses small image patches around them to perform
 direct tracking. The tracked points are then input to a sparse bundle
 adjustment back-end.
@@ -143,7 +117,7 @@ adjustment back-end.
 
 As opposed to the camera based \gls{SLAM}, \gls{LIDAR}s capable
 of generating dense and accurate depth map with relatively long range
-outdoor. It is usually based on the direct alignment of point cloud
+outdoor\cite{7487258}. It is usually based on the direct alignment of point cloud
 using classical iterative closest point algorithm or its variants.
 
 \subsection{Inertial Navigation}
