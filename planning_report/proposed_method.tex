@@ -21,7 +21,42 @@ camera.
 
 \subsection{Sensor Fusion}
 
-Describe the sensor fusion algorithm here, EKF with information filter?
+The sensor fusion will be performed using a combination of particle
+filters and the \gls{EM} algorithm
+\cite{DBLP:journals/automatica/SchonWN11}. Particle filters
+\cite{210672} has been used to compute unbiased estimates of the
+states $x_{t}$  of non-linear and non-Gaussian state space models. In
+this algorithm several hypotheses, or particles, are propagated and
+compared to the observed measurements. The hypotheses that eventually
+are considered unlikely are discarded, the likely ones are
+propagated. The main advantage of the particle filter is that the
+different sensor modalities only have to supple a measurement function
+of the type:
+$$
+y_k = h(x_k, m) + e_k,
+$$
+which depends on the current dynamical state of the vehicle, $x_t$ and
+the positions of the landmark $m$. It is assumed here that the sensor
+noise is additive, but it does not have to be.
+
+However, the particle filters suffers from the curse of
+dimensionality, i.e., if the state vector is large $x_t$ the
+computational burden becomes in-feasible \cite{1453762}. To include
+thousands of landmarks $m$ can thus be difficult. And the knowledge
+that the landmarks are static in time is hard to incorporate into the
+particle filter solution.
+
+Thus, to approach the problem of estimation of landmark positions, the
+\gls{EM}-algorithm \cite{Dempster77maximumlikelihood} will be employed
+as well. The\gls{EM}-algorithm is an iterative procedure for computing
+the \gls{ML} estimator when only a subset of the data is available. It
+consists of two steps: one expectation step and one maximization
+step. For purpose of this project, the particle filter will be used to compute
+unbiased estimates of the log-likelihood of the measurements for a
+given value of the landmark positions. Then in the maximization step,
+new landmark positions will be computed.
+
+
 
 \subsection{Motion model}
 
