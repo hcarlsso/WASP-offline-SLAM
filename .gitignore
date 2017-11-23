@@ -13,6 +13,7 @@
 
 # Exclude the document pdf
 main.pdf
+auto/
 
 ## Intermediate documents:
 *.dvi
