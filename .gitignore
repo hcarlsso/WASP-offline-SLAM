@@ -222,3 +222,7 @@ TSWLatexianTemp*
 
 # expex forward references with \gathertags
 *-tags.tex
+
+
+# Dont include data folders
+data/
