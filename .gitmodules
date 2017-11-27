@@ -1,3 +1,6 @@
 [submodule "code/sigsys"]
 	path = code/sigsys
 	url = https://github.com/hcarlsso/sigsys.git
+[submodule "code/robotcar-dataset-sdk"]
+	path = code/robotcar-dataset-sdk
+	url = https://github.com/hcarlsso/robotcar-dataset-sdk.git
