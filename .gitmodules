@@ -4,3 +4,6 @@
 [submodule "code/robotcar-dataset-sdk"]
 	path = code/robotcar-dataset-sdk
 	url = https://github.com/hcarlsso/robotcar-dataset-sdk.git
+[submodule "code/unit"]
+	path = code/unit
+	url = https://github.com/hcarlsso/unit.git
