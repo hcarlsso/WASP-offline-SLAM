@@ -19,6 +19,8 @@ systems can provide an independent estimate of the dynamical states, $x_{1:T}$
 and the separate landmarks $m_{r,1:T}$ for radio and $m_{v,1:T}$ for the
 camera.
 
+The main software that is going to be used is Matlab.
+
 \subsection{Sensor Fusion}
 
 The sensor fusion will be performed using a combination of particle
@@ -71,6 +73,8 @@ For purpose of this project, the particle filter will be used to compute
 unbiased function estimates of the log-likelihood of the measurements for a
 given value of the landmark positions, i.e., the expectation step.  Then in the maximization step,
 new landmark positions will be computed from this same function.
+
+There are two possible toolboxes for this algorithm, ``Statistical Sensor FusionMatlab Toolbox''\cite{gustafsson2010statistical} and \gls{UNIT}\cite{NINNESS2013631}.
 
 \subsection{Motion model}
 
