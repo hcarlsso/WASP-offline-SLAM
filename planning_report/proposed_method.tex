@@ -204,17 +204,25 @@ $\mathbf{t}$. $\bm{x_i}$ and $\bm{y_i}$ are matched feature
 pairs. $\pi$ is the warping function using camera intrinsic.
 
 \subsection{Feature extraction camera}
+The landmarks should be robust to changes in the environment such as changes in the scene, season and lighting conditions. In methods using point-based features, like \gls{SIFT} or \gls{SURF}, these aspects are usually not considered and points are likely to be located or cars or vegetation that can move or change appearance over time. To make the system more robust to these changes it would be desirable to select landmarks that are not likely to move or change appearance and that can be easily identified in a camera image.
 
-The landmarks extracted from the camera can be done using semantic
-segmentation on the data-set \cite{Brostow:2009:SOC:1464534.1465403}.
+\Glspl{CNN} have recently shown good performance in so called pixel-wise semantic segmentation \cite{cordts2016cityscapes}, i.e., for each pixel in the image infer a semantic class. A neural network for semantic segmentation, such as ResNet \cite{DBLP:journals/corr/WuSH16e} or PSPNet \cite{zhao2017pspnet}, can be trained to detect and classify pixels into classes suitable as landmarks by using images and annotations from the Mapillary Vistas dataset \cite{neuhold2017mapillary}.
 
-Tutorial is found here:
-\url{https://se.mathworks.com/help/vision/examples/semantic-segmentation-using-deep-learning.html}
+Since camera is assumed to be calibrated each pixel is associated with an \gls{AOA}. The distance to pixels can be estimated by using algorithms like SGM \cite{hirschmuller2005accurate}.
 
-From the segmented images, it is possible to get an \gls{AOA}
-measurement. From the image, the center of gravity can be computed,
-and can be compared with the field of view of the sensing camera.
 
+
+%
+%The landmarks extracted from the camera can be done using semantic
+%segmentation on the data-set \cite{Brostow:2009:SOC:1464534.1465403}.
+
+%Tutorial is found here:
+%\url{https://se.mathworks.com/help/vision/examples/semantic-segmentation-using-deep-learning.html}
+
+%From the segmented images, it is possible to get an \gls{AOA}
+%measurement. From the image, the center of gravity can be computed,
+%and can be compared with the field of view of the sensing camera.
+%}
 \subsection{Performance assessment}
 
 In order to assess the performance of the off-line \gls{SLAM}
