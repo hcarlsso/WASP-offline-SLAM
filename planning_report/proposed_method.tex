@@ -23,40 +23,54 @@ camera.
 
 The sensor fusion will be performed using a combination of particle
 filters and the \gls{EM} algorithm
-\cite{DBLP:journals/automatica/SchonWN11}. Particle filters
-\cite{210672} has been used to compute unbiased estimates of the
-states $x_{t}$  of non-linear and non-Gaussian state space models. In
-this algorithm several hypotheses, or particles, are propagated and
+\cite{DBLP:journals/automatica/SchonWN11}.
+
+The particle filter
+\cite{210672} methodology is a sequential Monte Carlo method used to
+solve non-linear filtering problems. Hence, the particle filter can
+compute unbiased estimates of the
+states $x_{t}$  of non-linear and non-Gaussian state space models. The
+fundamental component of the particle filter is to represent posterior
+distributions as empirical distributions composed of particles, which
+can also be interpreted as hypotheses. According to the dynamical
+model, the hypotheses are propagated and
 compared to the observed measurements. The hypotheses that eventually
-are considered unlikely are discarded, the likely ones are
-propagated. The main advantage of the particle filter is that the
-different sensor modalities only have to supple a measurement function
+are considered unlikely are discarded, and the likely ones are
+propagated in time. The particles also embed the inherent uncertainty
+of the estimated states $x_t$.
+
+The main advantage of the particle filter concerning this project, is that the
+different sensor modalities only need to be represented by a measurement function
 of the type:
-$$
-y_k = h(x_k, m) + e_k,
-$$
+\begin{equation}
+  \label{eq:measurement_function}
+  y_k = h(x_k, m) + e_k,
+\end{equation}
 which depends on the current dynamical state of the vehicle, $x_t$ and
-the positions of the landmark $m$. It is assumed here that the sensor
-noise is additive, but it does not have to be.
+the positions of the landmark $m$. Thus, it is not required to provide
+a ``solution'' to~\eqref{eq:measurement_function}.
 
 However, the particle filters suffers from the curse of
 dimensionality, i.e., if the state vector is large $x_t$ the
 computational burden becomes in-feasible \cite{1453762}. To include
-thousands of landmarks $m$ can thus be difficult. And the knowledge
-that the landmarks are static in time is hard to incorporate into the
+thousands of landmarks $m$ can thus be difficult. Additionally, the
+landmarks are static in time, which is hard to incorporate into the
 particle filter solution.
 
 Thus, to approach the problem of estimation of landmark positions, the
 \gls{EM}-algorithm \cite{Dempster77maximumlikelihood} will be employed
-as well. The\gls{EM}-algorithm is an iterative procedure for computing
+as well. The \gls{EM}-algorithm is an iterative procedure for computing
 the \gls{ML} estimator when only a subset of the data is available. It
 consists of two steps: one expectation step and one maximization
-step. For purpose of this project, the particle filter will be used to compute
-unbiased estimates of the log-likelihood of the measurements for a
-given value of the landmark positions. Then in the maximization step,
-new landmark positions will be computed.
+step. In the expectation step, a function is created that evaluates
+the expectation of the log-likelihood given a current estimate of
+parameters. In the maximization step, this function is maximized with
+respect to the parameters.
 
-
+For purpose of this project, the particle filter will be used to compute
+unbiased function estimates of the log-likelihood of the measurements for a
+given value of the landmark positions, i.e., the expectation step.  Then in the maximization step,
+new landmark positions will be computed from this same function.
 
 \subsection{Motion model}
 
