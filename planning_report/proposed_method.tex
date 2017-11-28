@@ -1,9 +1,9 @@
 \section{Proposed Method}
 
 The methodology in this to first address the \gls{MVP}, and state the
-specifications for a \gls{MVP}, see Section \ref{sec:mvs}. From there, features
+specifications for a \gls{MVP}, see Section~\ref{sec:mvs}. From there, features
 will then be added
-according to a feature list, see Section \ref{sec:features}.
+according to a feature list, see Section~\ref{sec:features}.
 
 \subsection{Minimum viable solution}\label{sec:mvs}
 
@@ -74,14 +74,17 @@ unbiased function estimates of the log-likelihood of the measurements for a
 given value of the landmark positions, i.e., the expectation step.  Then in the maximization step,
 new landmark positions will be computed from this same function.
 
-There are two possible toolboxes for this algorithm, ``Statistical Sensor FusionMatlab Toolbox''\cite{gustafsson2010statistical} and \gls{UNIT}\cite{NINNESS2013631}.
+There are two possible toolboxes for this algorithm, ``Statistical
+Sensor Fusion Matlab Toolbox''~\cite{gustafsson2010statistical} and
+\gls{UNIT}~\cite{NINNESS2013631}.
+
 
 \subsection{Motion model}
 
 As a motion model for dynamics of the vehicle, we will use the bicycle model
 adapted for a
 car.
-The parameters are shown in figure \ref{fig:motion_model}. The state space
+The parameters are shown in Figure~\ref{fig:motion_model}. The state space
 model is defined as
 
 \begin{equation}
@@ -94,7 +97,7 @@ model is defined as
 
 where $v$ is speed of the car and $\phi$ is the steering angle.
 These can be observed using an \gls{IMU} and/or estimates from the onboard car
-sensors. This provides a model for $f_k$ in Equations \eqref{eq:slam_problem}.
+sensors. This provides a model for $f_k$ in Equations~\eqref{eq:slam_problem}.
 
 \begin{figure}
 \centering
@@ -233,8 +236,8 @@ algorithm, it is possible to perform cross-validation.
 
 The requirements on WARA-CAT are:
 \begin{itemize}
-  \item Test environment for data collection using the defined sensor in
-    \ref{sec:sensor-setup}
+  \item Test environment for data collection using the defined sensor
+    in~\ref{sec:sensor-setup}
 \item Ground truth of the vehicle for evaluation of algorithms.
 \end{itemize}
 

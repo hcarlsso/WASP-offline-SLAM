@@ -22,9 +22,9 @@ time.
 
 The dynamics of the vehicle is embedded in the function $f_k$, and the observations from the sensors are embedded in the function $h_k$. Each sensor type has an observation model associated with it, and multiple sensors can be parametrized differently.
 
-Further, the process noise $v_k$ and the measurement noise $e_k$ also plays an important role. In \eqref{eq:slam_problem}, it is assumed that $e_k$ is additive and $v_k$ not necessarily additive. $u_k$ denotes the control input to the system.
+Further, the process noise $v_k$ and the measurement noise $e_k$ also plays an important role. In~\eqref{eq:slam_problem}, it is assumed that $e_k$ is additive and $v_k$ not necessarily additive. $u_k$ denotes the control input to the system.
 
-The general solution to \eqref{eq:slam_problem} is calculate the posterior distribution of the states and the landmarks given the observations, i.e.
+The general solution to~\eqref{eq:slam_problem} is calculate the posterior distribution of the states and the landmarks given the observations, i.e.
 \begin{equation}\label{eq:posterior}
 p(x_{1:T}, m_{1:T} | y_{1:T}),
 \end{equation}
@@ -38,7 +38,7 @@ for $k = 1, \cdots, T$. The localization problem, given new measurements $y_{1:T
 $$
 p(x_{T}| m ,  y_{1:T}),
 $$
-where now $m$ is given by \eqref{eq:map_making_problem}.
+where now $m$ is given by~\eqref{eq:map_making_problem}.
 
 \subsection{Sensor set-up}\label{sec:sensor-setup}
 The sensors available in the test vehicle are the following:
